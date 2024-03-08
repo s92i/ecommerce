@@ -6,13 +6,17 @@ import ProductDetails from "./screens/ProductDetails";
 import Cart from "./screens/Cart";
 import Checkout from "./screens/Checkout";
 import Payment from "./screens/Payment";
+import Login from "./screens/auth/Login";
+import Register from "./screens/auth/Register";
+import Account from "./screens/account/Account";
+import Notifications from "./screens/account/Notifications";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -23,6 +27,18 @@ export default function App() {
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Checkout" component={Checkout} />
         <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen name="Account" component={Account} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

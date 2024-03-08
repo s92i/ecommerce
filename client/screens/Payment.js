@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
+import Layout from "../components/layout/Layout";
 
 const Payment = () => {
   return (
-    <View>
+    <Layout>
       <Text>Payment</Text>
-    </View>
+    </Layout>
   );
 };
 

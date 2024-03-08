@@ -65,7 +65,7 @@ const Footer = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.menuContainer}
-        onPress={() => navigation.navigate("Logout")}
+        onPress={() => navigation.navigate("Login")}
       >
         <FontAwesome
           style={[styles.icon, route.name === "Logout" && styles.active]}

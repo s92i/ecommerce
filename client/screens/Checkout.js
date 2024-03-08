@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
+import Layout from "../components/layout/Layout";
 
 const Checkout = ({ navigation }) => {
   const handleOnlinePayment = () => {
@@ -7,22 +8,26 @@ const Checkout = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Payment options</Text>
-      <Text style={styles.price}>Total amount : 101$</Text>
-      <View style={styles.paymentCard}>
-        <Text style={styles.paymentHeading}>Select your payment mode</Text>
-        <TouchableOpacity style={styles.paymentBtn}>
-          <Text style={styles.paymentBtnText}>Cash on delivery</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.paymentBtn}
-          onPress={handleOnlinePayment}
-        >
-          <Text style={styles.paymentBtnText}>Online (credit/debit card)</Text>
-        </TouchableOpacity>
+    <Layout>
+      <View style={styles.container}>
+        <Text style={styles.heading}>Payment options</Text>
+        <Text style={styles.price}>Total amount : 101$</Text>
+        <View style={styles.paymentCard}>
+          <Text style={styles.paymentHeading}>Select your payment mode</Text>
+          <TouchableOpacity style={styles.paymentBtn}>
+            <Text style={styles.paymentBtnText}>Cash on delivery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.paymentBtn}
+            onPress={handleOnlinePayment}
+          >
+            <Text style={styles.paymentBtnText}>
+              Online (credit/debit card)
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </Layout>
   );
 };
 
