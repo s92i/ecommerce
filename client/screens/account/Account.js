@@ -4,7 +4,7 @@ import Layout from "../../components/layout/Layout";
 import { UserData } from "../../data/UserData";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-const Account = () => {
+const Account = ({ navigation }) => {
   return (
     <Layout>
       <View style={styles.container}>
@@ -18,19 +18,33 @@ const Account = () => {
         </View>
         <View style={styles.btnContainer}>
           <Text style={styles.heading}>Account settings</Text>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate("Profile", { id: UserData._id })}
+          >
             <FontAwesome style={styles.btnText} name="edit" />
             <Text style={styles.btnText}>Edit profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate("Orders", { id: UserData._id })}
+          >
             <FontAwesome style={styles.btnText} name="bars" />
             <Text style={styles.btnText}>My orders</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate("Notifications")}
+          >
             <FontAwesome style={styles.btnText} name="bell" />
             <Text style={styles.btnText}>Notifications</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() =>
+              navigation.navigate("Dashboard", { id: UserData._id })
+            }
+          >
             <FontAwesome style={styles.btnText} name="dashboard" />
             <Text style={styles.btnText}>Admin panel</Text>
           </TouchableOpacity>
