@@ -1,4 +1,6 @@
 import userModel from "../models/userModel.js";
+import cloudinary from "cloudinary";
+import { getDataUri } from "../utils/features.js";
 
 export const registerController = async (req, res) => {
   try {
@@ -125,6 +127,91 @@ export const logoutController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error logging out",
+      error,
+    });
+  }
+};
+
+export const updateProfileController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const { name, email, address, city, mobile, avatar } = req.body;
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (address) user.address = address;
+    if (city) user.city = city;
+    if (mobile) user.mobile = mobile;
+    if (avatar) user.avatar = avatar;
+
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "User profile updated",
+    });
+  } catch (error) {
+    console.log("Error updating user's profile ", error);
+    res.status(500).send({
+      success: false,
+      message: "Error updating user's profile",
+      error,
+    });
+  }
+};
+
+export const updatePasswordController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(500).send({
+        success: false,
+        message: "Please provide old or new password",
+      });
+    }
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid old password",
+      });
+    }
+    user.password = newPassword;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.log("Error updating user's password", error);
+    res.status(500).send({
+      success: false,
+      message: "Error updating user's password",
+      error,
+    });
+  }
+};
+
+export const updateAvatar = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const file = getDataUri(req.file);
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    const cdb = await cloudinary.v2.uploader.upload(file.content);
+    user.avatar = {
+      public_id: cdb.public_id,
+      url: cdb.secure_url,
+    };
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "Avatar updated",
+    });
+  } catch (error) {
+    console.log("Error updating user's avatar", error);
+    res.status(500).send({
+      success: false,
+      message: "Error updating user's avatar",
       error,
     });
   }
