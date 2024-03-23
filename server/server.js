@@ -9,6 +9,7 @@ import cloudinary from "cloudinary";
 import connectDB from "./config/db.js";
 import user from "./routes/userRoute.js";
 import product from "./routes/productRoute.js";
+import category from "./routes/categoryRoute.js";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 app.use("/api/user", user);
 app.use("/api/product", product);
+app.use("/api/category", category);
 
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.NODE_ENV;
