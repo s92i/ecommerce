@@ -8,6 +8,7 @@ import cloudinary from "cloudinary";
 
 import connectDB from "./config/db.js";
 import user from "./routes/userRoute.js";
+import product from "./routes/productRoute.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api/user", user);
+app.use("/api/product", product);
 
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.NODE_ENV;
