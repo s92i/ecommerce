@@ -2,11 +2,11 @@ import userModel from "../models/userModel.js";
 import cloudinary from "cloudinary";
 import { getDataUri } from "../utils/features.js";
 
-export const registerController = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { name, email, password, address, city, mobile } = req.body;
     if (!name || !email || !password || !address || !city || !mobile) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Please provide all fields",
       });
@@ -41,11 +41,11 @@ export const registerController = async (req, res) => {
   }
 };
 
-export const loginController = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Please use your email and password",
       });
@@ -89,7 +89,7 @@ export const loginController = async (req, res) => {
   }
 };
 
-export const getUserProfileController = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id);
     user.password = undefined;
@@ -108,7 +108,7 @@ export const getUserProfileController = async (req, res) => {
   }
 };
 
-export const logoutController = async (req, res) => {
+export const logout = async (req, res) => {
   try {
     res
       .status(200)
@@ -132,7 +132,7 @@ export const logoutController = async (req, res) => {
   }
 };
 
-export const updateProfileController = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id);
     const { name, email, address, city, mobile, avatar } = req.body;
@@ -159,19 +159,19 @@ export const updateProfileController = async (req, res) => {
   }
 };
 
-export const updatePasswordController = async (req, res) => {
+export const updatePassword = async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id);
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Please provide old or new password",
       });
     }
     const isMatch = await user.comparePassword(oldPassword);
     if (!isMatch) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Invalid old password",
       });

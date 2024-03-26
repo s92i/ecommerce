@@ -1,8 +1,9 @@
 import productModel from "../models/productModel.js";
+import categoryModel from "../models/categoryModel.js";
 import cloudinary from "cloudinary";
 import { getDataUri } from "../utils/features.js";
 
-export const getAllProductsController = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   try {
     const products = await productModel.find({});
     res.status(200).send({
@@ -20,7 +21,7 @@ export const getAllProductsController = async (req, res) => {
   }
 };
 
-export const getSingleProductController = async (req, res) => {
+export const getProduct = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.id);
     if (!product) {
@@ -50,13 +51,20 @@ export const getSingleProductController = async (req, res) => {
   }
 };
 
-export const createProductController = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const { name, description, price, category, stock } = req.body;
     if (!name || !description || !price || !stock) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Please provide all fields",
+      });
+    }
+    const foundCategory = await categoryModel.findOne({ category: category });
+    if (!foundCategory) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
       });
     }
     const file = getDataUri(req.file);
@@ -66,7 +74,7 @@ export const createProductController = async (req, res) => {
       url: cdb.secure_url,
     };
     if (!req.file) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Please provide product image",
       });
@@ -75,7 +83,7 @@ export const createProductController = async (req, res) => {
       name,
       description,
       price,
-      category,
+      category: foundCategory._id,
       stock,
       images: [image],
     });
@@ -93,7 +101,7 @@ export const createProductController = async (req, res) => {
   }
 };
 
-export const updateProductController = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.id);
     if (!product) {
@@ -123,7 +131,7 @@ export const updateProductController = async (req, res) => {
   }
 };
 
-export const updateProductImageController = async (req, res) => {
+export const updateProductImage = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.id);
     if (!product) {
@@ -166,7 +174,7 @@ export const updateProductImageController = async (req, res) => {
   }
 };
 
-export const deleteImageProductController = async (req, res) => {
+export const deleteProductImage = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.id);
     if (!product) {
@@ -215,7 +223,7 @@ export const deleteImageProductController = async (req, res) => {
   }
 };
 
-export const deleteProductController = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.id);
     if (!product) {

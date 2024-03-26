@@ -1,24 +1,24 @@
 import express from "express";
 import {
-  getUserProfileController,
-  loginController,
-  logoutController,
-  registerController,
+  getUserProfile,
+  login,
+  logout,
+  register,
   updateAvatar,
-  updatePasswordController,
-  updateProfileController,
+  updatePassword,
+  updateProfile,
 } from "../controllers/userController.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
 import { singleUpload } from "../middlewares/multer.js";
 
 const router = express.Router();
 
-router.post("/register", registerController);
-router.post("/login", loginController);
-router.get("/profile", isAuth, getUserProfileController);
-router.get("/logout", isAuth, logoutController);
-router.put("/profile-update", isAuth, updateProfileController);
-router.put("/update-password", isAuth, updatePasswordController);
+router.post("/register", register);
+router.post("/login", login);
+router.get("/profile", isAuth, getUserProfile);
+router.get("/logout", isAuth, logout);
+router.put("/profile-update", isAuth, updateProfile);
+router.put("/update-password", isAuth, updatePassword);
 router.put("/update-avatar", isAuth, singleUpload, updateAvatar);
 
 export default router;
